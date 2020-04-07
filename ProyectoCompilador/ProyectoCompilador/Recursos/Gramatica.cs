@@ -24,8 +24,8 @@ namespace ProyectoCompilador.Recursos
 
             CommentTerminal comentarioLinea = new CommentTerminal("SingleLineComment", "//", "\r", "\n", "\u2085", "\u2028", "\u2029");
             CommentTerminal comentarioBloque = new CommentTerminal("DelimitedComment", "/*", "*/");
-            NonGrammarTerminals.Add(SingleLineComment);
-            NonGrammarTerminals.Add(DelimitedComment);
+            NonGrammarTerminals.Add(comentarioLinea);
+            NonGrammarTerminals.Add(comentarioBloque);
             #endregion
 
             #region KeyWords de Puntuacion
@@ -48,49 +48,56 @@ namespace ProyectoCompilador.Recursos
             KeyTerm minusMinus = ToTerm("--", "menosMenos");
 
             //Comparadores
-            KeyTerm mayorQue = toTerm(">", "mayorQue");
-            KeyTerm menorQue = toTerm("<", "menorQue");
-            KeyTerm igual = toTerm("=", "igual");
-            KeyTerm mayorIgual = toTerm(">=", "mayorIgual");
-            KeyTerm menorIgual = toTerm("<=", "menorIgual");
-            KeyTerm diferente = toTerm("!=", "diferente");
-            KeyTerm igualIgual = toTerm("==", "igualIgual");
+            KeyTerm mayorQue = ToTerm(">", "mayorQue");
+            KeyTerm menorQue = ToTerm("<", "menorQue");
+            KeyTerm igual = ToTerm("=", "igual");
+            KeyTerm mayorIgual = ToTerm(">=", "mayorIgual");
+            KeyTerm menorIgual = ToTerm("<=", "menorIgual");
+            KeyTerm diferente = ToTerm("!=", "diferente");
+            KeyTerm igualIgual = ToTerm("==", "igualIgual");
 
             //Variables
-            KeyTerm varInt = toTerm("int");
-            KeyTerm varFloat = toTerm("float");
-            KeyTerm varString = toTerm("string");
-            KeyTerm varBoolean = toTerm("bool");
+            KeyTerm varInt = ToTerm("int");
+            KeyTerm varFloat = ToTerm("float");
+            KeyTerm varString = ToTerm("string");
+            KeyTerm varBoolean = ToTerm("bool");
 
             //Ciclos y condicionales
-            KeyTerm condIf = toTerm("if");
-            KeyTerm condElif = toTerm("elif");
-            KeyTerm condElse = toTerm("else");
-            KeyTerm kwBreack = toTerm("break");
-            KeyTerm kwCase = toTerm("case");
-            KeyTerm kwClass = toTerm("class");
-            KeyTerm kwTry = toTerm("Try");
-            KeyTerm kwCatch = toTerm("Catch");
-            KeyTerm kwWhile = toTerm("while");
-            KeyTerm kwDowhile = toTerm("do while");
-            KeyTerm kwFor = toTerm("for");
-            KeyTerm kwPublic = toTerm("public");
-            KeyTerm kwThrow = toTerm("Throw");
-            KeyTerm kwVoid = toTerm("Void");
-            KeyTerm kwSwitch = toTerm("Switch");
-            KeyTerm kwTrue = toTerm("true");
-            KeyTerm kwFalse = toTerm("False");
+            KeyTerm condIf = ToTerm("if");
+            KeyTerm condElif = ToTerm("elif");
+            KeyTerm condElse = ToTerm("else");
+            KeyTerm kwBreack = ToTerm("break");
+            KeyTerm kwCase = ToTerm("case");
+            KeyTerm kwClass = ToTerm("class");
+            KeyTerm kwTry = ToTerm("Try");
+            KeyTerm kwCatch = ToTerm("Catch");
+            KeyTerm kwWhile = ToTerm("while");
+            KeyTerm kwDowhile = ToTerm("do while");
+            KeyTerm kwFor = ToTerm("for");
+            KeyTerm kwPublic = ToTerm("public");
+            KeyTerm kwThrow = ToTerm("Throw");
+            KeyTerm kwVoid = ToTerm("Void");
+            KeyTerm kwSwitch = ToTerm("Switch");
+            KeyTerm kwTrue = ToTerm("true");
+            KeyTerm kwFalse = ToTerm("False");
 
             #endregion
 
             #region Terminales
-
+            NonTerminal ini = new NonTerminal("ini");
+            NonTerminal instruccion = new NonTerminal("instruccion");
+            NonTerminal instrucciones = new NonTerminal("instrucciones");
+            NonTerminal expresion_numerica = new NonTerminal("expresion_numerica");
+            NonTerminal expresion_cadena = new NonTerminal("expresion_cadena");
+            NonTerminal expresion_logica = new NonTerminal("expresion_logica");
             #endregion
 
             #region No terminales
             #endregion
 
             #region Gramatica
+            ini.Rule = instrucciones;
+
             #endregion
 
             #region Preferencias
