@@ -12,6 +12,7 @@ namespace ProyectoCompilador.Recursos
     {
         public Gramatica():base(caseSensitive:true) 
         {
+            //Prueba
 
             #region er
             StringLiteral CADENA = new StringLiteral("cadena", "\"");
