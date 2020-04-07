@@ -80,7 +80,6 @@ namespace ProyectoCompilador.Recursos
             KeyTerm kwSwitch = ToTerm("Switch");
             KeyTerm kwTrue = ToTerm("true");
             KeyTerm kwFalse = ToTerm("False");
-
             #endregion
 
             #region Terminales
