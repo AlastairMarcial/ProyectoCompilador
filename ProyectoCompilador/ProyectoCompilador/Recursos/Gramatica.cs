@@ -17,8 +17,8 @@ namespace ProyectoCompilador.Recursos
             #region er
             StringLiteral CADENA = new StringLiteral("cadena", "\"");
             RegexBasedTerminal letras = new RegexBasedTerminal("letras", "[(a-z)*(A-Z)*(0-9)*]+");
-            var ENTERO = new NumberLiteral("entero");
-            var DECIMAL = new RegexBasedTerminal("Decimal", "[0-9]+'.'[0-9]+");
+            var ENTERO = new RegexBasedTerminal("Entero", "[0-9]+");
+            var DECIMAL = new RegexBasedTerminal("Decimal", "[0-9]+[.]+[0-9]+");
             IdentifierTerminal IDENTIFICADOR = new IdentifierTerminal("ID");
 
             //CommentTerminal comentarioBloque = new CommentTerminal("comentarioBloque", "/", "/");
@@ -80,7 +80,7 @@ namespace ProyectoCompilador.Recursos
             KeyTerm kwVoid = ToTerm("Void");
             KeyTerm kwSwitch = ToTerm("Switch");
             KeyTerm kwTrue = ToTerm("true");
-            KeyTerm kwFalse = ToTerm("False");
+            KeyTerm kwFalse = ToTerm("false");
             #endregion
 
             #region Terminales
@@ -90,6 +90,15 @@ namespace ProyectoCompilador.Recursos
             NonTerminal expresion_numerica = new NonTerminal("expresion_numerica");
             NonTerminal expresion_cadena = new NonTerminal("expresion_cadena");
             NonTerminal expresion_logica = new NonTerminal("expresion_logica");
+
+            //No terminales para declarar variables
+            NonTerminal declararVar = new NonTerminal("decVar");
+            NonTerminal decInt = new NonTerminal("decInt");
+            NonTerminal decFloat = new NonTerminal("decFloat");
+            NonTerminal decString = new NonTerminal("decString");
+            NonTerminal decBool = new NonTerminal("decBool");
+
+            var entradaID = new NonTerminal("entradaID");
             #endregion
 
             #region No terminales
@@ -98,6 +107,16 @@ namespace ProyectoCompilador.Recursos
             #region Gramatica
             ini.Rule = instrucciones;
 
+
+            //Declarar varibles
+            declararVar.Rule = decInt | decFloat | decString | decBool | declararVar;
+
+            decInt.Rule = varInt + entradaID + igual + ENTERO + puntoComa;
+            decFloat.Rule = (varFloat + entradaID + igual + DECIMAL + puntoComa);
+            decString.Rule = (varString + entradaID + igual + (CADENA) + puntoComa);
+            decBool.Rule = (varBoolean + entradaID + igual + (kwTrue | kwFalse) + puntoComa);
+
+            entradaID.Rule = MakePlusRule(entradaID, ToTerm(","), IDENTIFICADOR);
             #endregion
 
             #region Preferencias
