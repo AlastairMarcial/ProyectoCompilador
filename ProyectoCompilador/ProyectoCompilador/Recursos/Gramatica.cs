@@ -126,12 +126,19 @@ namespace ProyectoCompilador.Recursos
 
 
             #region Jesus IF
+
+            //----------------------IF------------------
+
             //En estos if solo se podran hacer 2 condiciones maximo por ejemplo if(a==2 && b=false){}
             //No terminales para condicional if
             NonTerminal condicionIF = new NonTerminal("condicionIF");
+            NonTerminal condicionIFELSE = new NonTerminal("condicionIFELSE");
+            NonTerminal condicionalIFELSEIF = new NonTerminal("condicionIFELSEIF");
             NonTerminal condicionELSE = new NonTerminal("condicionELSE");
+            NonTerminal condicionELSEIF = new NonTerminal("condicionELSEIF");
             NonTerminal expComparacion = new NonTerminal("expComparacion");
             NonTerminal nuevaCondicion = new NonTerminal("nuevaCondicion");
+            NonTerminal nuevaCondicion2 = new NonTerminal("nuevaCondicion2");
             NonTerminal compIgualDiferente = new NonTerminal("compIgualDiferente");
             NonTerminal compMayorMenor = new NonTerminal("comMayorMenor");
             NonTerminal compMayorMenorIgual = new NonTerminal("comMayorMenor");
@@ -143,8 +150,8 @@ namespace ProyectoCompilador.Recursos
             //Nota: El Ciclo if que se presenta se modificara para poder poner mas codigo dentro del ciclo if
 
             //Declarar un if
-            condicionIF.Rule = condIf + parentesisIzq + expComparacion + (nuevaCondicion | parentesisDer) + (nuevaCondicion | parentesisDer) + llaveIzq + llaveDer;
-            expComparacion.Rule = compIgualDiferente | compMayorMenor | compMayorMenorIgual | compBool;
+            condicionIF.Rule = condIf + parentesisIzq + (expComparacion | (expComparacion + nuevaCondicion)) + parentesisDer + llaveIzq + llaveDer;
+            expComparacion.Rule = (parentesisIzq + (compIgualDiferente | compMayorMenor | compMayorMenorIgual | compBool) + parentesisDer) | (compIgualDiferente | compMayorMenor | compMayorMenorIgual | compBool);
             compIgualDiferente.Rule = ((DECIMAL + igualIgual + DECIMAL) | (ENTERO + igualIgual + ENTERO) | (entradaID + igualIgual + (ENTERO | DECIMAL | CADENA))) |
                                       ((DECIMAL + diferente + DECIMAL) | (ENTERO + diferente + ENTERO) | (entradaID + diferente + (ENTERO | DECIMAL | CADENA)));
             compMayorMenor.Rule = ((DECIMAL + mayorQue + DECIMAL) | (ENTERO + mayorQue + ENTERO) | (entradaID + mayorQue + (ENTERO | DECIMAL | CADENA))) |
@@ -152,7 +159,17 @@ namespace ProyectoCompilador.Recursos
             compMayorMenorIgual.Rule = ((DECIMAL + mayorIgual + DECIMAL) | (ENTERO + mayorIgual + ENTERO) | (entradaID + mayorIgual + (ENTERO | DECIMAL | CADENA))) |
                                       ((DECIMAL + menorIgual + DECIMAL) | (ENTERO + menorIgual + ENTERO) | (entradaID + menorIgual + (ENTERO | DECIMAL | CADENA)));
             compBool.Rule = entradaID + igual + (kwTrue | kwFalse);
-            nuevaCondicion.Rule = (signoAND | signoOR) + expComparacion;
+            nuevaCondicion.Rule = ((signoAND | signoOR) + expComparacion) | ((signoAND | signoOR) + expComparacion + nuevaCondicion2);
+            nuevaCondicion2.Rule = nuevaCondicion;
+
+            //Declarar un if else
+            condicionIFELSE.Rule = condicionIF + condicionELSE;
+            condicionELSE.Rule = condElse + llaveIzq + llaveDer;
+
+            //Declarar un if else if
+            condicionalIFELSEIF.Rule = condicionIF + condicionELSEIF;
+            condicionELSEIF.Rule = condElse + (condicionIF | condicionELSE | condicionalIFELSEIF);
+
             #endregion
             #region Preferencias
             #endregion
