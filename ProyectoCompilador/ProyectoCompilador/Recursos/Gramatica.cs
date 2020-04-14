@@ -185,6 +185,47 @@ namespace ProyectoCompilador.Recursos
             condicionSwitch.Rule = kwSwitch + parentesisIzq + switchOpcion + parentesisDer + llaveIzq
                                 + opcionCase + llaveDer; //cierre de Switch
             #endregion
+
+            #region Jesus Imprimir
+            //-----------------------Print
+
+            KeyTerm kwConsole = ToTerm("Console");
+            KeyTerm kwWrite = ToTerm("Write");
+            KeyTerm kwWriteLn = ToTerm("WriteLine");
+
+            NonTerminal imprimir = new NonTerminal("imprimir");
+            NonTerminal imprimirWrite = new NonTerminal("imprimirWrite");
+            NonTerminal imprimirWriteLn = new NonTerminal("imprimirWriteLn");
+            NonTerminal textoOVariable = new NonTerminal("textoOVariable");
+
+            imprimir.Rule = kwConsole + punto + (imprimirWrite | imprimirWriteLn) + puntoComa;
+            imprimirWrite.Rule = kwWrite + parentesisIzq + textoOVariable + parentesisDer;
+            imprimirWriteLn.Rule = kwWriteLn + parentesisIzq + textoOVariable + parentesisDer;
+            textoOVariable.Rule = (CADENA | entradaID) | ((CADENA | entradaID) + plus + textoOVariable);
+            #endregion
+
+            #region Jesus Operaciones
+            //-------------------------Operaciones
+
+            NonTerminal operaciones = new NonTerminal("operaciones");
+            NonTerminal opeSuma = new NonTerminal("opeSuma");
+            NonTerminal opeResta = new NonTerminal("opeResta");
+            NonTerminal opeMultiplicacion = new NonTerminal("opeMultiplicacion");
+            NonTerminal opeDivision = new NonTerminal("opeDivision");
+            NonTerminal opeCompuesta = new NonTerminal("opeCompuesta");
+            NonTerminal datoEntradaOpe = new NonTerminal("datoEntradaOpe");
+
+            operaciones.Rule = ((opeSuma | opeResta | opeMultiplicacion | opeDivision) + puntoComa) | (opeCompuesta + puntoComa);
+            opeSuma.Rule = datoEntradaOpe | (datoEntradaOpe + plus + opeSuma) | (parentesisIzq + opeSuma + parentesisDer) | (plus + datoEntradaOpe);
+            opeResta.Rule = datoEntradaOpe | (datoEntradaOpe + minus + opeResta) | (parentesisIzq + opeResta + parentesisDer) | (minus + datoEntradaOpe);
+            opeMultiplicacion.Rule = datoEntradaOpe | (datoEntradaOpe + por + opeMultiplicacion) | (parentesisIzq + opeMultiplicacion + parentesisDer) | (por + datoEntradaOpe) | (parentesisIzq + opeMultiplicacion + parentesisDer);
+            opeDivision.Rule = datoEntradaOpe | (datoEntradaOpe + div + opeDivision) | (parentesisIzq + opeDivision + parentesisDer) | (div + datoEntradaOpe);
+            opeCompuesta.Rule = (opeSuma | opeResta | opeMultiplicacion | opeDivision) | ((opeSuma | opeResta | opeMultiplicacion | opeDivision) + opeCompuesta);
+            datoEntradaOpe.Rule = (ENTERO | DECIMAL | entradaID) | (parentesisIzq + datoEntradaOpe + parentesisDer) | (parentesisIzq + (opeSuma | opeResta | opeMultiplicacion | opeDivision) + parentesisDer);
+
+
+            #endregion
+
             #region Preferencias
             #endregion
         }
