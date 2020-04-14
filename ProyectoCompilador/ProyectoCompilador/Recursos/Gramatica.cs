@@ -171,6 +171,20 @@ namespace ProyectoCompilador.Recursos
             condicionELSEIF.Rule = condElse + (condicionIF | condicionELSE | condicionalIFELSEIF);
 
             #endregion
+
+            #region ADRI SWITCH
+            NonTerminal condicionSwitch = new NonTerminal("condicionSwitch");
+            NonTerminal switchOpcion = new NonTerminal("switchOpcion");
+            NonTerminal opcionCase = new NonTerminal("opcionCase");
+            NonTerminal opcionDefault = new NonTerminal("opcionDefault");
+            //poner con las keyterm
+            KeyTerm kwDefault = ToTerm("default");
+            opcionDefault.Rule = kwDefault + dosPuntos + kwBreack + puntoComa;
+            opcionCase.Rule = kwCase + switchOpcion + dosPuntos + kwBreack + puntoComa + (opcionCase | opcionDefault);
+            switchOpcion.Rule = DECIMAL | ENTERO | CADENA | entradaID;
+            condicionSwitch.Rule = kwSwitch + parentesisIzq + switchOpcion + parentesisDer + llaveIzq
+                                + opcionCase + llaveDer; //cierre de Switch
+            #endregion
             #region Preferencias
             #endregion
         }
