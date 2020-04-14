@@ -226,6 +226,19 @@ namespace ProyectoCompilador.Recursos
 
             #endregion
 
+            #region Jesus funciones y clases
+            //------------------funciones de clases
+            NonTerminal nameSpace = new NonTerminal("nameSpace");
+            NonTerminal ntClass = new NonTerminal("ntClass");
+            NonTerminal ntMain = new NonTerminal("ntMain");
+            NonTerminal ntPublic = new NonTerminal("ntPublic");
+
+            nameSpace.Rule = "namespace" + entradaID + llaveIzq + ntClass + llaveDer;
+            ntClass.Rule = kwClass + entradaID + llaveIzq + (ntPublic | ntMain) + llaveDer;
+            ntMain.Rule = "static void Main" + parentesisIzq + varString + "[] args" + parentesisDer + llaveIzq + llaveDer;
+            ntPublic.Rule = kwPublic + entradaID + "()" + llaveIzq + llaveDer;
+            #endregion
+
             #region Preferencias
             #endregion
         }
