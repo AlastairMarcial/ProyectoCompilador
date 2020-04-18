@@ -39,6 +39,8 @@ namespace ProyectoCompilador.Recursos
             KeyTerm parentesisDer = ToTerm(")", "parentesisDer");
             KeyTerm llaveIzq = ToTerm("{", "llaveIzq");
             KeyTerm llaveDer = ToTerm("}", "llaveDer");
+            KeyTerm corcheteIzq = ToTerm("[", "corcheteIzq");
+            KeyTerm corcheteDer = ToTerm("]", "corcheteDer");
             #endregion
 
             #region KeyWords Operadores, Comparadores, nombre variables, 
@@ -65,6 +67,7 @@ namespace ProyectoCompilador.Recursos
             KeyTerm varBoolean = ToTerm("bool");
 
             //Ciclos y condicionales
+            KeyTerm kwNew = ToTerm("new");
             KeyTerm condIf = ToTerm("if");
             KeyTerm condElif = ToTerm("elif");
             KeyTerm condElse = ToTerm("else");
@@ -74,7 +77,7 @@ namespace ProyectoCompilador.Recursos
             KeyTerm kwTry = ToTerm("Try");
             KeyTerm kwCatch = ToTerm("Catch");
             KeyTerm kwWhile = ToTerm("while");
-            KeyTerm kwDowhile = ToTerm("do while");
+            KeyTerm kwDo = ToTerm("Do");
             KeyTerm kwFor = ToTerm("for");
             KeyTerm kwPublic = ToTerm("public");
             KeyTerm kwThrow = ToTerm("Throw");
@@ -82,6 +85,19 @@ namespace ProyectoCompilador.Recursos
             KeyTerm kwSwitch = ToTerm("Switch");
             KeyTerm kwTrue = ToTerm("true");
             KeyTerm kwFalse = ToTerm("false");
+            #endregion
+
+            #region keyword using
+            KeyTerm punto = ToTerm(".", "punto");
+            KeyTerm kwUsing = ToTerm("using");
+            KeyTerm kwSystem = ToTerm("System");
+            KeyTerm kwCollection = ToTerm("Collections");
+            KeyTerm kwIO = ToTerm("IO");
+            KeyTerm kwGeneric = ToTerm("Generic");
+            KeyTerm kwLinq = ToTerm("Linq");
+            KeyTerm kwText = ToTerm("Text");
+            KeyTerm kwThreading = ToTerm("Threading");
+            KeyTerm kwTasks = ToTerm("Tasks");
             #endregion
 
             #region Terminales
@@ -123,7 +139,6 @@ namespace ProyectoCompilador.Recursos
 
 
             #endregion
-
 
             #region Jesus IF
 
@@ -237,6 +252,29 @@ namespace ProyectoCompilador.Recursos
             ntClass.Rule = kwClass + entradaID + llaveIzq + (ntPublic | ntMain) + llaveDer;
             ntMain.Rule = "static void Main" + parentesisIzq + varString + "[] args" + parentesisDer + llaveIzq + llaveDer;
             ntPublic.Rule = kwPublic + entradaID + "()" + llaveIzq + llaveDer;
+            #endregion
+
+            #region Adri declaracion de variables
+            NonTerminal asignadorVariable = new NonTerminal("asignadorVariable");
+            NonTerminal BoolAsignacionVariable = new NonTerminal("BoolAsignacionVariable");
+            BoolAsignacionVariable.Rule = (kwTrue | kwFalse);
+            asignadorVariable.Rule = entradaID + igual + ((operaciones) | (((BoolAsignacionVariable) | (DECIMAL) | (ENTERO) | (CADENA)) + puntoComa));
+            #endregion
+
+            #region Aldair Using
+            NonTerminal System = new NonTerminal("System");
+            NonTerminal LibreriasE = new NonTerminal("LibreriasE");
+            LibreriasE.Rule = punto + (kwCollection + punto + kwGeneric + puntoComa | kwIO + puntoComa | kwLinq + puntoComa | kwText + puntoComa | kwThreading + punto + kwTasks + puntoComa);
+            System.Rule = kwUsing + (kwSystem) + (LibreriasE | puntoComa);
+            #endregion
+
+            #region Aldair While & DoWhile
+            NonTerminal condicionWhile = new NonTerminal("CondicionWhile");
+            NonTerminal condicionDoWhile = new NonTerminal("CondicionDoWhile");
+            NonTerminal cicloswhile = new NonTerminal("CiclosWhile");
+            cicloswhile.Rule = condicionWhile | condicionDoWhile;
+            condicionWhile.Rule = kwWhile + parentesisIzq + expComparacion + (nuevaCondicion | parentesisDer) + (nuevaCondicion | parentesisDer) + parentesisDer + llaveIzq + llaveDer;
+            condicionDoWhile.Rule = kwDo + llaveIzq + llaveDer + kwWhile + parentesisIzq + expComparacion + (nuevaCondicion | parentesisDer) + (nuevaCondicion | parentesisDer);
             #endregion
 
             #region Preferencias
