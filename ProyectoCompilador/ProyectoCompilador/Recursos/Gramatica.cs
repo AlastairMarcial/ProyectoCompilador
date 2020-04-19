@@ -46,6 +46,7 @@ namespace ProyectoCompilador.Recursos
             #region KeyWords Operadores, Comparadores, nombre variables, 
             KeyTerm plus = ToTerm("+", "plus");
             KeyTerm minus = ToTerm("-", "minus");
+            KeyTerm kwComa = ToTerm(",");
             KeyTerm por = ToTerm("*", "por");
             KeyTerm div = ToTerm("/", "div");
             KeyTerm plusPlus = ToTerm("++", "plusPlus");
@@ -88,7 +89,6 @@ namespace ProyectoCompilador.Recursos
             #endregion
 
             #region keyword using
-            KeyTerm punto = ToTerm(".", "punto");
             KeyTerm kwUsing = ToTerm("using");
             KeyTerm kwSystem = ToTerm("System");
             KeyTerm kwCollection = ToTerm("Collections");
@@ -275,6 +275,17 @@ namespace ProyectoCompilador.Recursos
             cicloswhile.Rule = condicionWhile | condicionDoWhile;
             condicionWhile.Rule = kwWhile + parentesisIzq + expComparacion + (nuevaCondicion | parentesisDer) + (nuevaCondicion | parentesisDer) + parentesisDer + llaveIzq + llaveDer;
             condicionDoWhile.Rule = kwDo + llaveIzq + llaveDer + kwWhile + parentesisIzq + expComparacion + (nuevaCondicion | parentesisDer) + (nuevaCondicion | parentesisDer);
+            #endregion
+
+            #region Adriana Vectores
+            NonTerminal declararArreglo = new NonTerminal("Arreglo");
+            NonTerminal iniciarArreglos = new NonTerminal("Iniciar Arreglo");
+            NonTerminal ValoresArreglo = new NonTerminal("Valores Arreglo");
+
+            ValoresArreglo.Rule = ((kwComa | ENTERO) + (ValoresArreglo | llaveDer) | (kwComa | DECIMAL) + (ValoresArreglo | llaveDer) | (kwComa | CADENA) + (ValoresArreglo | llaveDer));
+            //int [] valores;                      //int[] valores2 = new int[50];            //int[] valores = new int[10] {0,1,2,3,4,5,6,7,8,9};
+            declararArreglo.Rule = (varInt | varString | varFloat) + corcheteIzq + corcheteDer + entradaID + (puntoComa | (igual + kwNew + (varInt | varString | varFloat) + corcheteIzq + ENTERO + corcheteDer +
+                (puntoComa | llaveIzq + ValoresArreglo + puntoComa)));
             #endregion
 
             #region Preferencias
