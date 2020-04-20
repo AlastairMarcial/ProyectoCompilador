@@ -298,7 +298,7 @@ namespace ProyectoCompilador.Recursos
                varInt + entradaID + igual + ENTERO + puntoComa +
                entradaID + (menorQue | menorIgual | igual | mayorQue | mayorIgual) + ENTERO + puntoComa +
                entradaID + plusPlus + parentesisDer + llaveIzq + llaveDer;
-
+           
             #endregion
         }
     }
